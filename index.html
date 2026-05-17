@@ -1,1 +1,1259 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>abdullah.jahangirai — AI & Automation Engineer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: '#1e1e1e',
+            'bg-deep': '#151515',
+            'bg-card': '#252525',
+            'bg-hover': '#2a2a2a',
+            fg: '#e6e6e6',
+            'fg-muted': '#8b8b8b',
+            'fg-dim': '#5a5a5a',
+            accent: '#00FF00',
+            'accent-blue': '#00D7FF',
+            'accent-dim': '#00cc00',
+            'accent-blue-dim': '#00b3d9',
+            border: '#333333',
+            'border-light': '#3a3a3a',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+            display: ['Space Grotesk', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { scrollbar-width: thin; scrollbar-color: #333 #1e1e1e; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #1e1e1e; }
+    ::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #555; }
 
+    ::selection { background: #00FF0033; color: #00FF00; }
+
+    body { background: #1e1e1e; color: #e6e6e6; }
+
+    .glow-green { text-shadow: 0 0 10px #00FF0044, 0 0 40px #00FF0011; }
+    .glow-blue { text-shadow: 0 0 10px #00D7FF44, 0 0 40px #00D7FF11; }
+    .glow-border-green { box-shadow: 0 0 15px #00FF0022, inset 0 0 15px #00FF0008; }
+    .glow-border-blue { box-shadow: 0 0 15px #00D7FF22, inset 0 0 15px #00D7FF08; }
+
+    .cursor-blink::after {
+      content: '▋';
+      animation: blink 1s step-end infinite;
+      color: #00FF00;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes typeChar {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+    .animate-fadeInUp { animation: fadeInUp 0.6s ease-out forwards; }
+    .animate-fadeIn { animation: fadeIn 0.5s ease-out forwards; }
+    .animate-slideDown { animation: slideDown 0.3s ease-out forwards; }
+
+    .code-block { position: relative; }
+    .code-block .line-numbers {
+      counter-reset: line;
+    }
+    .code-block .line-numbers span {
+      counter-increment: line;
+    }
+    .code-block .line-numbers span::before {
+      content: counter(line);
+      display: inline-block;
+      width: 2em;
+      margin-right: 1em;
+      text-align: right;
+      color: #4a4a4a;
+    }
+
+    .tag-active { background: #00FF0018 !important; color: #00FF00 !important; border-color: #00FF0044 !important; }
+
+    .article-card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px #00000066; }
+
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: #00FF00;
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+
+    .terminal-dots span {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+
+    /* Syntax highlighting */
+    .syn-keyword { color: #c678dd; }
+    .syn-string { color: #98c379; }
+    .syn-function { color: #61afef; }
+    .syn-comment { color: #5c6370; font-style: italic; }
+    .syn-number { color: #d19a66; }
+    .syn-decorator { color: #e5c07b; }
+    .syn-class { color: #e5c07b; }
+    .syn-builtin { color: #56b6c2; }
+    .syn-operator { color: #56b6c2; }
+    .syn-param { color: #e06c75; }
+
+    .project-card:hover .project-icon { transform: scale(1.1); }
+
+    #article-detail { display: none; }
+    #article-detail.visible { display: block; }
+    #main-content.hidden-content { display: none; }
+
+    .toast {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 100;
+      padding: 12px 24px; border-radius: 8px;
+      background: #252525; border: 1px solid #00FF0044;
+      color: #00FF00; font-family: 'JetBrains Mono', monospace; font-size: 13px;
+      animation: slideDown 0.3s ease-out forwards;
+      box-shadow: 0 0 20px #00FF0022;
+    }
+    .toast.hiding { animation: fadeIn 0.3s ease-out reverse forwards; }
+
+    .avatar-ring {
+      background: conic-gradient(#00FF00, #00D7FF, #00FF00);
+      padding: 3px;
+      border-radius: 1rem;
+    }
+    .avatar-ring img {
+      border-radius: calc(1rem - 3px);
+    }
+  </style>
+</head>
+<body class="font-sans antialiased">
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-bg-deep/90 backdrop-blur-md border-b border-border">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="#" onclick="showMain()" class="flex items-center gap-2 group">
+        <span class="text-accent font-mono text-sm">$~</span>
+        <span class="font-display font-bold text-fg text-lg tracking-tight">abdullah<span class="text-accent">.jahangirai</span></span>
+      </a>
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#articles" class="nav-link text-sm text-fg-muted hover:text-fg transition-colors font-mono">~/articles</a>
+        <a href="#projects" class="nav-link text-sm text-fg-muted hover:text-fg transition-colors font-mono">~/projects</a>
+        <a href="#about" class="nav-link text-sm text-fg-muted hover:text-fg transition-colors font-mono">~/about</a>
+        <a href="#contact" class="px-4 py-2 bg-accent/10 text-accent border border-accent/30 rounded-md text-sm font-mono hover:bg-accent/20 transition-all">contact</a>
+      </div>
+      <button onclick="toggleMobileMenu()" class="md:hidden text-fg-muted hover:text-fg">
+        <span class="iconify" data-icon="lucide:menu" data-width="22"></span>
+      </button>
+    </div>
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-bg-deep border-b border-border px-6 py-4">
+      <div class="flex flex-col gap-3">
+        <a href="#articles" onclick="toggleMobileMenu()" class="text-sm text-fg-muted hover:text-accent font-mono">~/articles</a>
+        <a href="#projects" onclick="toggleMobileMenu()" class="text-sm text-fg-muted hover:text-accent font-mono">~/projects</a>
+        <a href="#about" onclick="toggleMobileMenu()" class="text-sm text-fg-muted hover:text-accent font-mono">~/about</a>
+        <a href="#contact" onclick="toggleMobileMenu()" class="text-sm text-fg-muted hover:text-accent font-mono">~/contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div id="main-content">
+
+    <!-- Hero Section -->
+    <section class="pt-28 pb-20 px-6">
+      <div class="max-w-6xl mx-auto">
+        <div class="flex flex-col md:flex-row gap-12 items-start">
+          <!-- Left: Avatar & Social -->
+          <div class="flex flex-col items-center gap-6 animate-fadeInUp" style="animation-delay:0.1s">
+            <div class="relative">
+              <div class="avatar-ring glow-border-green">
+                <img src="https://z-cdn-media.chatglm.cn/files/4b39a5aa-97cb-4e33-9ad5-f7a8d1c57e65.jpg?auth_key=1879019824-366b4b8eedbb4a90bc2169cb44306fb0-0-129ced49d45bb852cc2879b72331ed2b" alt="Abdullah Jahangir" class="w-32 h-32 object-cover grayscale hover:grayscale-0 transition-all duration-500">
+              </div>
+              <div class="absolute -bottom-1 -right-1 w-5 h-5 bg-accent rounded-full border-2 border-bg-deep animate-pulse"></div>
+            </div>
+            <div class="flex gap-3">
+              <a href="https://github.com/abdullahjahangir123" target="_blank" class="w-9 h-9 rounded-lg bg-bg-card border border-border flex items-center justify-center text-fg-muted hover:text-accent hover:border-accent/30 transition-all">
+                <span class="iconify" data-icon="lucide:github" data-width="16"></span>
+              </a>
+              <a href="https://www.linkedin.com/in/abdullah-jahangir-vertex" target="_blank" class="w-9 h-9 rounded-lg bg-bg-card border border-border flex items-center justify-center text-fg-muted hover:text-accent-blue hover:border-accent-blue/30 transition-all">
+                <span class="iconify" data-icon="lucide:linkedin" data-width="16"></span>
+              </a>
+              <a href="mailto:abdullah.vertex@gmail.com" class="w-9 h-9 rounded-lg bg-bg-card border border-border flex items-center justify-center text-fg-muted hover:text-accent hover:border-accent/30 transition-all">
+                <span class="iconify" data-icon="lucide:mail" data-width="16"></span>
+              </a>
+              <a href="https://abdullah-ai.lovable.app/" target="_blank" class="w-9 h-9 rounded-lg bg-bg-card border border-border flex items-center justify-center text-fg-muted hover:text-accent-blue hover:border-accent-blue/30 transition-all">
+                <span class="iconify" data-icon="lucide:globe" data-width="16"></span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right: Intro -->
+          <div class="flex-1 animate-fadeInUp" style="animation-delay:0.2s">
+            <!-- Terminal window -->
+            <div class="bg-bg-card rounded-xl border border-border overflow-hidden">
+              <div class="terminal-dots flex items-center gap-1 px-4 py-3 bg-bg-deep border-b border-border">
+                <span class="bg-red-500/80"></span>
+                <span class="bg-yellow-500/80"></span>
+                <span class="bg-green-500/80"></span>
+                <span class="ml-4 text-fg-dim text-xs font-mono">introduction.sh</span>
+              </div>
+              <div class="p-6 font-mono text-sm leading-relaxed">
+                <p class="text-fg-dim"># whoami</p>
+                <p class="mt-2 text-fg">
+                  <span class="text-accent">abdjahangir</span><span class="text-fg-dim">@</span><span class="text-accent-blue">karachi</span>
+                  <span class="text-fg-dim">:</span><span class="text-fg-muted">~</span><span class="text-fg-dim">$</span>
+                </p>
+                <h1 class="mt-4 font-display text-3xl md:text-4xl font-bold text-fg leading-tight">
+                  Abdullah Jahangir
+                </h1>
+                <p class="mt-2 text-accent-blue font-display text-lg font-medium">
+                  AI & Automation Engineer
+                </p>
+                <div class="mt-6 space-y-2 text-sm">
+                  <p><span class="text-accent">▸</span> Python Backend Dev <span class="text-fg-dim">(FastAPI, Flask, Django)</span></p>
+                  <p><span class="text-accent">▸</span> Agentic AI & RAG Pipelines</p>
+                  <p><span class="text-accent">▸</span> Workflow Automation <span class="text-fg-dim">(n8n)</span></p>
+                  <p><span class="text-accent">▸</span> Computer Vision <span class="text-fg-dim">(YOLOv8)</span></p>
+                </div>
+                <div class="mt-6 flex items-center gap-2 text-xs text-fg-dim">
+                  <span class="iconify" data-icon="lucide:map-pin" data-width="12"></span>
+                  <span>Karachi, Pakistan</span>
+                  <span class="mx-2">·</span>
+                  <span class="iconify" data-icon="lucide:briefcase" data-width="12"></span>
+                  <span>AI Intern @ Morphe Labs</span>
+                </div>
+                <p class="mt-4 text-fg-muted cursor-blink">
+                  $ ready to build something amazing_
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tech Stack Bar -->
+        <div class="mt-12 animate-fadeInUp" style="animation-delay:0.4s">
+          <div class="flex flex-wrap gap-3 justify-center">
+            <span class="px-3 py-1.5 bg-bg-card border border-border rounded-md text-xs font-mono text-fg-muted hover:text-accent hover:border-accent/30 transition-all cursor-default">Python</span>
+            <span class="px-3 py-1.5 bg-bg-card border border-border rounded-md text-xs font-mono text-fg-muted hover:text-accent-blue hover:border-accent-blue/30 transition-all cursor-default">FastAPI</span>
+            <span class="px-3 py-1.5 bg-bg-card border border-border rounded-md text-xs font-mono text-fg-muted hover:text-accent hover:border-accent/30 transition-all cursor-default">LangChain</span>
+            <span class="px-3 py-1.5 bg-bg-card border border-border rounded-md text-xs font-mono text-fg-muted hover:text-accent-blue hover:border-accent-blue/30 transition-all cursor-default">FAISS</span>
+            <span class="px-3 py-1.5 bg-bg-card border border-border rounded-md text-xs font-mono text-fg-muted hover:text-accent hover:border-accent/30 transition-all cursor-default">n8n</span>
+            <span class="px-3 py-1.5 bg-bg-card border border-border rounded-md text-xs font-mono text-fg-muted hover:text-accent-blue hover:border-accent-blue/30 transition-all cursor-default">YOLOv8</span>
+            <span class="px-3 py-1.5 bg-bg-card border border-border rounded-md text-xs font-mono text-fg-muted hover:text-accent-blue hover:border-accent-blue/30 transition-all cursor-default">MongoDB</span>
+            <span class="px-3 py-1.5 bg-bg-card border border-border rounded-md text-xs font-mono text-fg-muted hover:text-accent hover:border-accent/30 transition-all cursor-default">Flask</span>
+            <span class="px-3 py-1.5 bg-bg-card border border-border rounded-md text-xs font-mono text-fg-muted hover:text-accent-blue hover:border-accent-blue/30 transition-all cursor-default">Docker</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Articles Section -->
+    <section id="articles" class="py-20 px-6">
+      <div class="max-w-6xl mx-auto">
+        <!-- Section Header -->
+        <div class="flex items-center gap-4 mb-10">
+          <span class="text-accent font-mono text-sm">02</span>
+          <div class="h-px flex-1 bg-gradient-to-r from-accent/30 to-transparent"></div>
+          <h2 class="font-display text-2xl font-bold text-fg">Articles</h2>
+          <div class="h-px flex-1 bg-gradient-to-l from-accent/30 to-transparent"></div>
+          <span class="text-accent font-mono text-sm">~/blog</span>
+        </div>
+
+        <!-- Tag Filters -->
+        <div class="flex flex-wrap gap-3 mb-10">
+          <button onclick="filterArticles('all')" class="tag-btn tag-active px-4 py-2 bg-bg-card border border-border rounded-lg text-xs font-mono text-fg-muted hover:text-accent hover:border-accent/30 transition-all" data-tag="all">
+            <span class="iconify inline-block mr-1" data-icon="lucide:layers" data-width="12"></span> All
+          </button>
+          <button onclick="filterArticles('backend')" class="tag-btn px-4 py-2 bg-bg-card border border-border rounded-lg text-xs font-mono text-fg-muted hover:text-accent hover:border-accent/30 transition-all" data-tag="backend">
+            <span class="iconify inline-block mr-1" data-icon="lucide:server" data-width="12"></span> Backend
+          </button>
+          <button onclick="filterArticles('ai')" class="tag-btn px-4 py-2 bg-bg-card border border-border rounded-lg text-xs font-mono text-fg-muted hover:text-accent-blue hover:border-accent-blue/30 transition-all" data-tag="ai">
+            <span class="iconify inline-block mr-1" data-icon="lucide:brain" data-width="12"></span> AI / ML
+          </button>
+          <button onclick="filterArticles('tools')" class="tag-btn px-4 py-2 bg-bg-card border border-border rounded-lg text-xs font-mono text-fg-muted hover:text-accent hover:border-accent/30 transition-all" data-tag="tools">
+            <span class="iconify inline-block mr-1" data-icon="lucide:wrench" data-width="12"></span> Tools
+          </button>
+          <button onclick="filterArticles('automation')" class="tag-btn px-4 py-2 bg-bg-card border border-border rounded-lg text-xs font-mono text-fg-muted hover:text-accent-blue hover:border-accent-blue/30 transition-all" data-tag="automation">
+            <span class="iconify inline-block mr-1" data-icon="lucide:zap" data-width="12"></span> Automation
+          </button>
+        </div>
+
+        <!-- Article Grid -->
+        <div id="article-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+          <!-- Article 1 -->
+          <article class="article-card group bg-bg-card border border-border rounded-xl overflow-hidden hover:border-accent/30 transition-all duration-300 cursor-pointer" data-tags="backend,ai" onclick="openArticle(0)">
+            <div class="relative h-44 overflow-hidden">
+              <img src="https://picsum.photos/seed/fastapi-rag-blog/600/350.jpg" alt="Building RAG with FastAPI" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-75">
+              <div class="absolute top-3 left-3 flex gap-2">
+                <span class="px-2 py-1 bg-accent/20 text-accent text-[10px] font-mono rounded border border-accent/30">Backend</span>
+                <span class="px-2 py-1 bg-accent-blue/20 text-accent-blue text-[10px] font-mono rounded border border-accent-blue/30">AI</span>
+              </div>
+            </div>
+            <div class="p-5">
+              <h3 class="font-display font-semibold text-fg group-hover:text-accent transition-colors leading-snug">Building RAG Pipelines with FastAPI & FAISS</h3>
+              <p class="mt-2 text-sm text-fg-muted leading-relaxed line-clamp-2">A step-by-step guide to building production-ready Retrieval-Augmented Generation pipelines using FastAPI, FAISS vector DB, and OpenAI embeddings.</p>
+              <div class="mt-4 flex items-center justify-between text-xs text-fg-dim font-mono">
+                <span>Jan 15, 2025</span>
+                <span>8 min read</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Article 2 -->
+          <article class="article-card group bg-bg-card border border-border rounded-xl overflow-hidden hover:border-accent-blue/30 transition-all duration-300 cursor-pointer" data-tags="ai,automation" onclick="openArticle(1)">
+            <div class="relative h-44 overflow-hidden">
+              <img src="https://picsum.photos/seed/n8n-agentic-workflow/600/350.jpg" alt="Agentic Workflows with n8n" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-75">
+              <div class="absolute top-3 left-3 flex gap-2">
+                <span class="px-2 py-1 bg-accent-blue/20 text-accent-blue text-[10px] font-mono rounded border border-accent-blue/30">AI</span>
+                <span class="px-2 py-1 bg-accent/20 text-accent text-[10px] font-mono rounded border border-accent/30">Automation</span>
+              </div>
+            </div>
+            <div class="p-5">
+              <h3 class="font-display font-semibold text-fg group-hover:text-accent-blue transition-colors leading-snug">Agentic AI Workflows with n8n</h3>
+              <p class="mt-2 text-sm text-fg-muted leading-relaxed line-clamp-2">How to orchestrate multi-step AI agent workflows using n8n, combining LLMs, vector search, and custom API integrations for document automation.</p>
+              <div class="mt-4 flex items-center justify-between text-xs text-fg-dim font-mono">
+                <span>Feb 03, 2025</span>
+                <span>6 min read</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Article 3 -->
+          <article class="article-card group bg-bg-card border border-border rounded-xl overflow-hidden hover:border-accent/30 transition-all duration-300 cursor-pointer" data-tags="ai" onclick="openArticle(2)">
+            <div class="relative h-44 overflow-hidden">
+              <img src="https://picsum.photos/seed/yolov8-cv-counter/600/350.jpg" alt="YOLOv8 People Counter" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-75">
+              <div class="absolute top-3 left-3 flex gap-2">
+                <span class="px-2 py-1 bg-accent-blue/20 text-accent-blue text-[10px] font-mono rounded border border-accent-blue/30">AI</span>
+              </div>
+            </div>
+            <div class="p-5">
+              <h3 class="font-display font-semibold text-fg group-hover:text-accent transition-colors leading-snug">Smart People Counter with YOLOv8</h3>
+              <p class="mt-2 text-sm text-fg-muted leading-relaxed line-clamp-2">Implementing real-time crowd monitoring using YOLOv8 object detection and IoU-based tracking for accurate people counting in video streams.</p>
+              <div class="mt-4 flex items-center justify-between text-xs text-fg-dim font-mono">
+                <span>Mar 12, 2025</span>
+                <span>10 min read</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Article 4 -->
+          <article class="article-card group bg-bg-card border border-border rounded-xl overflow-hidden hover:border-accent-blue/30 transition-all duration-300 cursor-pointer" data-tags="backend" onclick="openArticle(3)">
+            <div class="relative h-44 overflow-hidden">
+              <img src="https://picsum.photos/seed/fastapi-microservices/600/350.jpg" alt="FastAPI Microservices" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-75">
+              <div class="absolute top-3 left-3 flex gap-2">
+                <span class="px-2 py-1 bg-accent/20 text-accent text-[10px] font-mono rounded border border-accent/30">Backend</span>
+              </div>
+            </div>
+            <div class="p-5">
+              <h3 class="font-display font-semibold text-fg group-hover:text-accent-blue transition-colors leading-snug">FastAPI Microservices Architecture</h3>
+              <p class="mt-2 text-sm text-fg-muted leading-relaxed line-clamp-2">Designing scalable Python microservices with FastAPI, Docker containerization, MongoDB for persistent storage, and Redis caching.</p>
+              <div class="mt-4 flex items-center justify-between text-xs text-fg-dim font-mono">
+                <span>Apr 07, 2025</span>
+                <span>12 min read</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Article 5 -->
+          <article class="article-card group bg-bg-card border border-border rounded-xl overflow-hidden hover:border-accent/30 transition-all duration-300 cursor-pointer" data-tags="tools,automation" onclick="openArticle(4)">
+            <div class="relative h-44 overflow-hidden">
+              <img src="https://picsum.photos/seed/shopify-chatbot-ai/600/350.jpg" alt="Shopify AI Chatbot" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-75">
+              <div class="absolute top-3 left-3 flex gap-2">
+                <span class="px-2 py-1 bg-accent/20 text-accent text-[10px] font-mono rounded border border-accent/30">Tools</span>
+                <span class="px-2 py-1 bg-accent-blue/20 text-accent-blue text-[10px] font-mono rounded border border-accent-blue/30">Automation</span>
+              </div>
+            </div>
+            <div class="p-5">
+              <h3 class="font-display font-semibold text-fg group-hover:text-accent transition-colors leading-snug">Shopify AI Customer Support Chatbot</h3>
+              <p class="mt-2 text-sm text-fg-muted leading-relaxed line-clamp-2">Building a multimodal AI chatbot for Shopify stores that handles text, voice, and image queries using FAISS vector search and FastAPI.</p>
+              <div class="mt-4 flex items-center justify-between text-xs text-fg-dim font-mono">
+                <span>May 20, 2025</span>
+                <span>7 min read</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Article 6 -->
+          <article class="article-card group bg-bg-card border border-border rounded-xl overflow-hidden hover:border-accent-blue/30 transition-all duration-300 cursor-pointer" data-tags="tools" onclick="openArticle(5)">
+            <div class="relative h-44 overflow-hidden">
+              <img src="https://picsum.photos/seed/docker-dev-setup/600/350.jpg" alt="Docker Dev Environment" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-75">
+              <div class="absolute top-3 left-3 flex gap-2">
+                <span class="px-2 py-1 bg-accent/20 text-accent text-[10px] font-mono rounded border border-accent/30">Tools</span>
+              </div>
+            </div>
+            <div class="p-5">
+              <h3 class="font-display font-semibold text-fg group-hover:text-accent-blue transition-colors leading-snug">Dockerized Python Dev Environment</h3>
+              <p class="mt-2 text-sm text-fg-muted leading-relaxed line-clamp-2">Setting up a reproducible Python development environment with Docker Compose, hot-reloading, and isolated dependency management.</p>
+              <div class="mt-4 flex items-center justify-between text-xs text-fg-dim font-mono">
+                <span>Jun 01, 2025</span>
+                <span>5 min read</span>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-20 px-6 bg-bg-deep">
+      <div class="max-w-6xl mx-auto">
+        <!-- Section Header -->
+        <div class="flex items-center gap-4 mb-10">
+          <span class="text-accent-blue font-mono text-sm">03</span>
+          <div class="h-px flex-1 bg-gradient-to-r from-accent-blue/30 to-transparent"></div>
+          <h2 class="font-display text-2xl font-bold text-fg">Projects</h2>
+          <div class="h-px flex-1 bg-gradient-to-l from-accent-blue/30 to-transparent"></div>
+          <span class="text-accent-blue font-mono text-sm">~/repos</span>
+        </div>
+
+        <!-- Project Grid -->
+        <div class="grid md:grid-cols-2 gap-6">
+
+          <!-- Project 1 -->
+          <div class="project-card group bg-bg-card border border-border rounded-xl p-6 hover:border-accent/30 transition-all duration-300 glow-border-green">
+            <div class="flex items-start justify-between mb-4">
+              <div class="project-icon w-12 h-12 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center transition-transform duration-300">
+                <span class="iconify text-accent" data-icon="lucide:bot" data-width="22"></span>
+              </div>
+              <a href="https://github.com/abdullahjahangir123" target="_blank" class="text-fg-dim hover:text-accent transition-colors">
+                <span class="iconify" data-icon="lucide:external-link" data-width="16"></span>
+              </a>
+            </div>
+            <h3 class="font-display font-semibold text-fg group-hover:text-accent transition-colors">Shopify AI Chatbot</h3>
+            <p class="mt-2 text-sm text-fg-muted leading-relaxed">Multimodal customer support chatbot supporting text, voice, and image inputs. Built with FastAPI backend and FAISS vector DB for semantic product search.</p>
+            <div class="mt-4 flex flex-wrap gap-2">
+              <span class="px-2 py-1 bg-accent/8 text-accent/80 text-[10px] font-mono rounded border border-accent/15">FastAPI</span>
+              <span class="px-2 py-1 bg-accent/8 text-accent/80 text-[10px] font-mono rounded border border-accent/15">FAISS</span>
+              <span class="px-2 py-1 bg-accent/8 text-accent/80 text-[10px] font-mono rounded border border-accent/15">OpenAI</span>
+              <span class="px-2 py-1 bg-accent/8 text-accent/80 text-[10px] font-mono rounded border border-accent/15">Whisper</span>
+            </div>
+            <div class="mt-4 pt-4 border-t border-border flex items-center gap-4 text-xs text-fg-dim font-mono">
+              <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-accent"></span> Python</span>
+              <span class="flex items-center gap-1"><span class="iconify" data-icon="lucide:star" data-width="12"></span> 24</span>
+              <span class="flex items-center gap-1"><span class="iconify" data-icon="lucide:git-fork" data-width="12"></span> 8</span>
+            </div>
+          </div>
+
+          <!-- Project 2 -->
+          <div class="project-card group bg-bg-card border border-border rounded-xl p-6 hover:border-accent-blue/30 transition-all duration-300 glow-border-blue">
+            <div class="flex items-start justify-between mb-4">
+              <div class="project-icon w-12 h-12 rounded-lg bg-accent-blue/10 border border-accent-blue/20 flex items-center justify-center transition-transform duration-300">
+                <span class="iconify text-accent-blue" data-icon="lucide:scan-eye" data-width="22"></span>
+              </div>
+              <a href="https://github.com/abdullahjahangir123" target="_blank" class="text-fg-dim hover:text-accent-blue transition-colors">
+                <span class="iconify" data-icon="lucide:external-link" data-width="16"></span>
+              </a>
+            </div>
+            <h3 class="font-display font-semibold text-fg group-hover:text-accent-blue transition-colors">Smart People Counter</h3>
+            <p class="mt-2 text-sm text-fg-muted leading-relaxed">Real-time crowd monitoring system using YOLOv8 object detection with IoU-based tracking for accurate people counting in video streams and CCTV feeds.</p>
+            <div class="mt-4 flex flex-wrap gap-2">
+              <span class="px-2 py-1 bg-accent-blue/8 text-accent-blue/80 text-[10px] font-mono rounded border border-accent-blue/15">YOLOv8</span>
+              <span class="px-2 py-1 bg-accent-blue/8 text-accent-blue/80 text-[10px] font-mono rounded border border-accent-blue/15">OpenCV</span>
+              <span class="px-2 py-1 bg-accent-blue/8 text-accent-blue/80 text-[10px] font-mono rounded border border-accent-blue/15">IoU Track</span>
+              <span class="px-2 py-1 bg-accent-blue/8 text-accent-blue/80 text-[10px] font-mono rounded border border-accent-blue/15">RTSP</span>
+            </div>
+            <div class="mt-4 pt-4 border-t border-border flex items-center gap-4 text-xs text-fg-dim font-mono">
+              <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-accent-blue"></span> Python</span>
+              <span class="flex items-center gap-1"><span class="iconify" data-icon="lucide:star" data-width="12"></span> 18</span>
+              <span class="flex items-center gap-1"><span class="iconify" data-icon="lucide:git-fork" data-width="12"></span> 5</span>
+            </div>
+          </div>
+
+          <!-- Project 3 -->
+          <div class="project-card group bg-bg-card border border-border rounded-xl p-6 hover:border-accent/30 transition-all duration-300">
+            <div class="flex items-start justify-between mb-4">
+              <div class="project-icon w-12 h-12 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center transition-transform duration-300">
+                <span class="iconify text-accent" data-icon="lucide:workflow" data-width="22"></span>
+              </div>
+              <a href="https://github.com/abdullahjahangir123" target="_blank" class="text-fg-dim hover:text-accent transition-colors">
+                <span class="iconify" data-icon="lucide:external-link" data-width="16"></span>
+              </a>
+            </div>
+            <h3 class="font-display font-semibold text-fg group-hover:text-accent transition-colors">n8n RAG Document Automation</h3>
+            <p class="mt-2 text-sm text-fg-muted leading-relaxed">Complex RAG-based AI workflows for document-driven response automation using n8n orchestration, combining LLMs with vector search for intelligent document processing.</p>
+            <div class="mt-4 flex flex-wrap gap-2">
+              <span class="px-2 py-1 bg-accent/8 text-accent/80 text-[10px] font-mono rounded border border-accent/15">n8n</span>
+              <span class="px-2 py-1 bg-accent/8 text-accent/80 text-[10px] font-mono rounded border border-accent/15">LangChain</span>
+              <span class="px-2 py-1 bg-accent/8 text-accent/80 text-[10px] font-mono rounded border border-accent/15">Pinecone</span>
+              <span class="px-2 py-1 bg-accent/8 text-accent/80 text-[10px] font-mono rounded border border-accent/15">GPT-4</span>
+            </div>
+            <div class="mt-4 pt-4 border-t border-border flex items-center gap-4 text-xs text-fg-dim font-mono">
+              <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-orange-400"></span> TypeScript</span>
+              <span class="flex items-center gap-1"><span class="iconify" data-icon="lucide:star" data-width="12"></span> 31</span>
+              <span class="flex items-center gap-1"><span class="iconify" data-icon="lucide:git-fork" data-width="12"></span> 12</span>
+            </div>
+          </div>
+
+          <!-- Project 4 -->
+          <div class="project-card group bg-bg-card border border-border rounded-xl p-6 hover:border-accent-blue/30 transition-all duration-300">
+            <div class="flex items-start justify-between mb-4">
+              <div class="project-icon w-12 h-12 rounded-lg bg-accent-blue/10 border border-accent-blue/20 flex items-center justify-center transition-transform duration-300">
+                <span class="iconify text-accent-blue" data-icon="lucide:database" data-width="22"></span>
+              </div>
+              <a href="https://github.com/abdullahjahangir123" target="_blank" class="text-fg-dim hover:text-accent-blue transition-colors">
+                <span class="iconify" data-icon="lucide:external-link" data-width="16"></span>
+              </a>
+            </div>
+            <h3 class="font-display font-semibold text-fg group-hover:text-accent-blue transition-colors">FastAPI Boilerplate</h3>
+            <p class="mt-2 text-sm text-fg-muted leading-relaxed">Production-ready FastAPI boilerplate with auth, MongoDB, Redis caching, Docker Compose, CI/CD pipelines, and structured logging for rapid backend development.</p>
+            <div class="mt-4 flex flex-wrap gap-2">
+              <span class="px-2 py-1 bg-accent-blue/8 text-accent-blue/80 text-[10px] font-mono rounded border border-accent-blue/15">FastAPI</span>
+              <span class="px-2 py-1 bg-accent-blue/8 text-accent-blue/80 text-[10px] font-mono rounded border border-accent-blue/15">MongoDB</span>
+              <span class="px-2 py-1 bg-accent-blue/8 text-accent-blue/80 text-[10px] font-mono rounded border border-accent-blue/15">Docker</span>
+              <span class="px-2 py-1 bg-accent-blue/8 text-accent-blue/80 text-[10px] font-mono rounded border border-accent-blue/15">JWT</span>
+            </div>
+            <div class="mt-4 pt-4 border-t border-border flex items-center gap-4 text-xs text-fg-dim font-mono">
+              <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-accent"></span> Python</span>
+              <span class="flex items-center gap-1"><span class="iconify" data-icon="lucide:star" data-width="12"></span> 42</span>
+              <span class="flex items-center gap-1"><span class="iconify" data-icon="lucide:git-fork" data-width="12"></span> 15</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 px-6">
+      <div class="max-w-6xl mx-auto">
+        <!-- Section Header -->
+        <div class="flex items-center gap-4 mb-10">
+          <span class="text-accent font-mono text-sm">04</span>
+          <div class="h-px flex-1 bg-gradient-to-r from-accent/30 to-transparent"></div>
+          <h2 class="font-display text-2xl font-bold text-fg">About</h2>
+          <div class="h-px flex-1 bg-gradient-to-l from-accent/30 to-transparent"></div>
+          <span class="text-accent font-mono text-sm">~/whoami</span>
+        </div>
+
+        <div class="grid md:grid-cols-5 gap-8">
+          <!-- About Text -->
+          <div class="md:col-span-3">
+            <div class="bg-bg-card border border-border rounded-xl p-8">
+              <p class="text-fg leading-relaxed">
+                I'm <span class="text-accent font-medium">Abdullah Jahangir</span>, an AI & Automation Engineer based in Karachi, Pakistan. Currently interning at <span class="text-accent-blue font-medium">Morphe Labs</span>, I specialize in building intelligent systems that bridge the gap between cutting-edge AI research and production-ready applications.
+              </p>
+              <p class="mt-4 text-fg-muted leading-relaxed">
+                My work revolves around Python backend development, agentic AI architectures, and workflow automation. I've built everything from multimodal chatbots handling text, voice, and image inputs to real-time computer vision systems for crowd monitoring.
+              </p>
+              <p class="mt-4 text-fg-muted leading-relaxed">
+                As a certified alumni of <span class="text-fg font-medium">Saylani Mass IT Training (SMIT)</span> in Agentic AI and Data Science, I'm passionate about leveraging AI to solve real-world problems efficiently.
+              </p>
+
+              <!-- Experience Timeline -->
+              <div class="mt-8 space-y-6">
+                <h3 class="font-display font-semibold text-fg flex items-center gap-2">
+                  <span class="iconify text-accent" data-icon="lucide:briefcase" data-width="16"></span>
+                  Experience
+                </h3>
+                <div class="relative pl-6 border-l border-border">
+                  <div class="absolute left-0 top-1 w-3 h-3 -translate-x-[7px] rounded-full bg-accent border-2 border-bg-card"></div>
+                  <div>
+                    <p class="text-sm font-medium text-fg">AI & Automation Intern</p>
+                    <p class="text-xs text-accent-blue font-mono">Morphe Labs · Remote · 2025</p>
+                    <p class="mt-1 text-sm text-fg-muted">Building agentic AI workflows and RAG-based automation systems.</p>
+                  </div>
+                </div>
+                <div class="relative pl-6 border-l border-border">
+                  <div class="absolute left-0 top-1 w-3 h-3 -translate-x-[7px] rounded-full bg-accent-blue border-2 border-bg-card"></div>
+                  <div>
+                    <p class="text-sm font-medium text-fg">Certified Alumni — Agentic AI & Data Science</p>
+                    <p class="text-xs text-accent font-mono">SMIT · Karachi · 2024</p>
+                    <p class="mt-1 text-sm text-fg-muted">Intensive training in AI agent development, RAG pipelines, and data science fundamentals.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tech Stack & Skills -->
+          <div class="md:col-span-2 space-y-6">
+            <!-- Tech Stack -->
+            <div class="bg-bg-card border border-border rounded-xl p-6">
+              <h3 class="font-display font-semibold text-fg mb-4 flex items-center gap-2">
+                <span class="iconify text-accent" data-icon="lucide:cpu" data-width="16"></span>
+                Tech Stack
+              </h3>
+              <div class="space-y-3">
+                <div>
+                  <div class="flex justify-between text-xs font-mono mb-1"><span class="text-fg-muted">Python / FastAPI</span><span class="text-accent">95%</span></div>
+                  <div class="h-1.5 bg-bg-deep rounded-full overflow-hidden"><div class="h-full bg-accent rounded-full" style="width:95%"></div></div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-xs font-mono mb-1"><span class="text-fg-muted">AI / RAG / LangChain</span><span class="text-accent-blue">90%</span></div>
+                  <div class="h-1.5 bg-bg-deep rounded-full overflow-hidden"><div class="h-full bg-accent-blue rounded-full" style="width:90%"></div></div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-xs font-mono mb-1"><span class="text-fg-muted">n8n / Automation</span><span class="text-accent">88%</span></div>
+                  <div class="h-1.5 bg-bg-deep rounded-full overflow-hidden"><div class="h-full bg-accent rounded-full" style="width:88%"></div></div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-xs font-mono mb-1"><span class="text-fg-muted">Computer Vision / YOLO</span><span class="text-accent-blue">85%</span></div>
+                  <div class="h-1.5 bg-bg-deep rounded-full overflow-hidden"><div class="h-full bg-accent-blue rounded-full" style="width:85%"></div></div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-xs font-mono mb-1"><span class="text-fg-muted">MongoDB</span><span class="text-accent">83%</span></div>
+                  <div class="h-1.5 bg-bg-deep rounded-full overflow-hidden"><div class="h-full bg-accent rounded-full" style="width:83%"></div></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Currently Learning -->
+            <div class="bg-bg-card border border-border rounded-xl p-6">
+              <h3 class="font-display font-semibold text-fg mb-4 flex items-center gap-2">
+                <span class="iconify text-accent-blue" data-icon="lucide:book-open" data-width="16"></span>
+                Currently Exploring
+              </h3>
+              <div class="space-y-2 text-sm text-fg-muted font-mono">
+                <p class="flex items-center gap-2"><span class="text-accent">▹</span> Multi-Agent Systems (CrewAI)</p>
+                <p class="flex items-center gap-2"><span class="text-accent-blue">▹</span> Kubernetes Orchestration</p>
+                <p class="flex items-center gap-2"><span class="text-accent">▹</span> Fine-tuning LLMs (LoRA)</p>
+                <p class="flex items-center gap-2"><span class="text-accent-blue">▹</span> Rust for Systems Programming</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 px-6 bg-bg-deep">
+      <div class="max-w-6xl mx-auto">
+        <!-- Section Header -->
+        <div class="flex items-center gap-4 mb-10">
+          <span class="text-accent-blue font-mono text-sm">05</span>
+          <div class="h-px flex-1 bg-gradient-to-r from-accent-blue/30 to-transparent"></div>
+          <h2 class="font-display text-2xl font-bold text-fg">Contact</h2>
+          <div class="h-px flex-1 bg-gradient-to-l from-accent-blue/30 to-transparent"></div>
+          <span class="text-accent-blue font-mono text-sm">~/reach-me</span>
+        </div>
+
+        <div class="max-w-2xl mx-auto">
+          <div class="bg-bg-card border border-border rounded-xl overflow-hidden">
+            <div class="terminal-dots flex items-center gap-1 px-4 py-3 bg-bg border-b border-border">
+              <span class="bg-red-500/80"></span>
+              <span class="bg-yellow-500/80"></span>
+              <span class="bg-green-500/80"></span>
+              <span class="ml-4 text-fg-dim text-xs font-mono">contact.sh</span>
+            </div>
+            <div class="p-8 font-mono text-sm">
+              <p class="text-fg-dim"># Let's build something together</p>
+              <p class="mt-3 text-fg">
+                <span class="text-accent">echo</span> <span class="text-green-400">"Ready for new opportunities"</span>
+              </p>
+              <p class="mt-1 text-fg">
+                <span class="text-accent-blue">open</span> <span class="text-green-400">"collaboration"</span>
+              </p>
+
+              <div class="mt-8 space-y-4">
+                <a href="mailto:abdullah.vertex@gmail.com" class="flex items-center gap-3 p-3 rounded-lg bg-bg border border-border hover:border-accent/30 transition-all group">
+                  <span class="iconify text-accent" data-icon="lucide:mail" data-width="18"></span>
+                  <span class="text-fg-muted group-hover:text-fg transition-colors">abdullah.vertex@gmail.com</span>
+                </a>
+                <a href="https://github.com/abdullahjahangir123" target="_blank" class="flex items-center gap-3 p-3 rounded-lg bg-bg border border-border hover:border-accent/30 transition-all group">
+                  <span class="iconify text-accent" data-icon="lucide:github" data-width="18"></span>
+                  <span class="text-fg-muted group-hover:text-fg transition-colors">github.com/abdullahjahangir123</span>
+                </a>
+                <a href="https://www.linkedin.com/in/abdullah-jahangir-vertex" target="_blank" class="flex items-center gap-3 p-3 rounded-lg bg-bg border border-border hover:border-accent-blue/30 transition-all group">
+                  <span class="iconify text-accent-blue" data-icon="lucide:linkedin" data-width="18"></span>
+                  <span class="text-fg-muted group-hover:text-fg transition-colors">linkedin.com/in/abdullah-jahangir-vertex</span>
+                </a>
+                <a href="https://abdullah-ai.lovable.app/" target="_blank" class="flex items-center gap-3 p-3 rounded-lg bg-bg border border-border hover:border-accent-blue/30 transition-all group">
+                  <span class="iconify text-accent-blue" data-icon="lucide:globe" data-width="18"></span>
+                  <span class="text-fg-muted group-hover:text-fg transition-colors">abdullah-ai.lovable.app</span>
+                </a>
+              </div>
+
+              <!-- Quick Message -->
+              <div class="mt-8 pt-6 border-t border-border">
+                <p class="text-fg-dim mb-4"># Send a quick message</p>
+                <form onsubmit="sendMessage(event)" class="space-y-3">
+                  <input type="text" id="msg-name" placeholder="your_name" class="w-full bg-bg border border-border rounded-lg px-4 py-2.5 text-fg placeholder-fg-dim font-mono text-sm focus:outline-none focus:border-accent/50 transition-colors">
+                  <textarea id="msg-body" rows="3" placeholder="your_message..." class="w-full bg-bg border border-border rounded-lg px-4 py-2.5 text-fg placeholder-fg-dim font-mono text-sm focus:outline-none focus:border-accent/50 transition-colors resize-none"></textarea>
+                  <button type="submit" class="px-6 py-2.5 bg-accent/15 text-accent border border-accent/30 rounded-lg font-mono text-sm hover:bg-accent/25 transition-all flex items-center gap-2">
+                    <span class="iconify" data-icon="lucide:send" data-width="14"></span>
+                    ./send_message
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- end main-content -->
+
+  <!-- Article Detail View (Hidden by default) -->
+  <div id="article-detail" class="pt-24 pb-20 px-6">
+    <div class="max-w-3xl mx-auto">
+      <button onclick="showMain()" class="mb-8 flex items-center gap-2 text-sm font-mono text-fg-muted hover:text-accent transition-colors">
+        <span class="iconify" data-icon="lucide:arrow-left" data-width="16"></span>
+        cd ~/articles
+      </button>
+      <div id="article-content"></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="border-t border-border py-8 px-6 bg-bg-deep">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="font-mono text-xs text-fg-dim">
+        <span class="text-accent">$</span> echo "Built with ☕ & 🐍" — <span class="text-fg-muted">© 2025 abdullah.jahangirai</span>
+      </div>
+      <div class="flex items-center gap-4 text-fg-dim">
+        <a href="https://github.com/abdullahjahangir123" target="_blank" class="hover:text-accent transition-colors"><span class="iconify" data-icon="lucide:github" data-width="16"></span></a>
+        <a href="https://www.linkedin.com/in/abdullah-jahangir-vertex" target="_blank" class="hover:text-accent-blue transition-colors"><span class="iconify" data-icon="lucide:linkedin" data-width="16"></span></a>
+        <a href="mailto:abdullah.vertex@gmail.com" class="hover:text-accent transition-colors"><span class="iconify" data-icon="lucide:mail" data-width="16"></span></a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+
+    // Article data
+    const articles = [
+      {
+        title: 'Building RAG Pipelines with FastAPI & FAISS',
+        date: 'January 15, 2025',
+        readTime: '8 min read',
+        tags: ['Backend', 'AI'],
+        content: `
+<p class="text-fg-muted leading-relaxed mb-6">Retrieval-Augmented Generation (RAG) is one of the most powerful patterns for building AI applications that need access to domain-specific knowledge. In this guide, I'll walk through building a production-ready RAG pipeline using <span class="text-accent">FastAPI</span> and <span class="text-accent-blue">FAISS</span>.</p>
+
+<h2 class="font-display text-xl font-bold text-fg mt-10 mb-4 flex items-center gap-2"><span class="text-accent font-mono text-sm">#1</span> Architecture Overview</h2>
+<p class="text-fg-muted leading-relaxed mb-6">The system follows a straightforward flow: documents are chunked, embedded, and stored in FAISS. At query time, we retrieve relevant chunks and pass them as context to an LLM.</p>
+
+<div class="code-block bg-[#1a1a1a] border border-border rounded-xl overflow-hidden my-6">
+  <div class="flex items-center justify-between px-4 py-2 bg-bg-deep border-b border-border">
+    <span class="text-xs font-mono text-fg-dim">rag_pipeline.py</span>
+    <button onclick="copyCode(this)" class="text-xs font-mono text-fg-dim hover:text-accent transition-colors flex items-center gap-1">
+      <span class="iconify" data-icon="lucide:copy" data-width="12"></span> copy
+    </button>
+  </div>
+  <pre class="p-5 text-sm font-mono leading-relaxed overflow-x-auto"><span class="syn-keyword">from</span> fastapi <span class="syn-keyword">import</span> FastAPI, UploadFile
+<span class="syn-keyword">from</span> langchain.embeddings <span class="syn-keyword">import</span> OpenAIEmbeddings
+<span class="syn-keyword">import</span> faiss <span class="syn-keyword">as</span> faiss
+<span class="syn-keyword">import</span> numpy <span class="syn-keyword">as</span> np
+
+app = FastAPI(<span class="syn-string">"RAG Pipeline"</span>)
+
+<span class="syn-class">class</span> <span class="syn-class">RAGService</span>:
+    <span class="syn-keyword">def</span> <span class="syn-function">__init__</span>(<span class="syn-param">self</span>):
+        <span class="syn-param">self</span>.embeddings = OpenAIEmbeddings()
+        <span class="syn-param">self</span>.index = <span class="syn-keyword">None</span>
+        <span class="syn-param">self</span>.chunks = []
+
+    <span class="syn-keyword">async def</span> <span class="syn-function">ingest</span>(<span class="syn-param">self</span>, documents: <span class="syn-builtin">list</span>[<span class="syn-builtin">str</span>]):
+        <span class="syn-comment"># Chunk documents & create embeddings</span>
+        <span class="syn-param">self</span>.chunks = <span class="syn-param">self</span>._chunk_docs(documents)
+        vectors = <span class="syn-keyword">await</span> <span class="syn-param">self</span>.embeddings.aembed_documents(
+            <span class="syn-param">self</span>.chunks
+        )
+        <span class="syn-param">self</span>.index = faiss.IndexFlatL2(
+            <span class="syn-builtin">len</span>(vectors[<span class="syn-number">0</span>])
+        )
+        <span class="syn-param">self</span>.index.add(np.array(vectors))
+
+    <span class="syn-keyword">async def</span> <span class="syn-function">query</span>(<span class="syn-param">self</span>, question: <span class="syn-builtin">str</span>, k: <span class="syn-builtin">int</span> = <span class="syn-number">5</span>):
+        q_vec = <span class="syn-keyword">await</span> <span class="syn-param">self</span>.embeddings.aembed_query(
+            question
+        )
+        D, I = <span class="syn-param">self</span>.index.search(
+            np.array([q_vec]), k
+        )
+        <span class="syn-keyword">return</span> [<span class="syn-param">self</span>.chunks[i] <span class="syn-keyword">for</span> i <span class="syn-keyword">in</span> I[<span class="syn-number">0</span>]]</pre>
+</div>
+
+<h2 class="font-display text-xl font-bold text-fg mt-10 mb-4 flex items-center gap-2"><span class="text-accent font-mono text-sm">#2</span> API Endpoints</h2>
+<p class="text-fg-muted leading-relaxed mb-6">The FastAPI endpoints handle document ingestion and querying. The design separates concerns — the service layer handles FAISS operations while the route layer manages HTTP concerns.</p>
+
+<div class="code-block bg-[#1a1a1a] border border-border rounded-xl overflow-hidden my-6">
+  <div class="flex items-center justify-between px-4 py-2 bg-bg-deep border-b border-border">
+    <span class="text-xs font-mono text-fg-dim">endpoints.py</span>
+    <button onclick="copyCode(this)" class="text-xs font-mono text-fg-dim hover:text-accent transition-colors flex items-center gap-1">
+      <span class="iconify" data-icon="lucide:copy" data-width="12"></span> copy
+    </button>
+  </div>
+  <pre class="p-5 text-sm font-mono leading-relaxed overflow-x-auto"><span class="syn-decorator">@app.post</span>(<span class="syn-string">"/ingest"</span>)
+<span class="syn-keyword">async def</span> <span class="syn-function">ingest_docs</span>(files: <span class="syn-builtin">list</span>[UploadFile]):
+    documents = []
+    <span class="syn-keyword">for</span> f <span class="syn-keyword">in</span> files:
+        content = <span class="syn-keyword">await</span> f.read()
+        documents.append(content.decode())
+    <span class="syn-keyword">await</span> rag_service.ingest(documents)
+    <span class="syn-keyword">return</span> {<span class="syn-string">"status"</span>: <span class="syn-string">"ingested"</span>}
+
+<span class="syn-decorator">@app.get</span>(<span class="syn-string">"/query"</span>)
+<span class="syn-keyword">async def</span> <span class="syn-function">ask</span>(question: <span class="syn-builtin">str</span>):
+    context = <span class="syn-keyword">await</span> rag_service.query(question)
+    response = <span class="syn-keyword">await</span> llm.generate(
+        context=context, question=question
+    )
+    <span class="syn-keyword">return</span> {<span class="syn-string">"answer"</span>: response}</pre>
+</div>
+
+<h2 class="font-display text-xl font-bold text-fg mt-10 mb-4 flex items-center gap-2"><span class="text-accent font-mono text-sm">#3</span> Key Takeaways</h2>
+<ul class="space-y-2 text-fg-muted">
+  <li class="flex items-start gap-2"><span class="text-accent mt-1">▸</span> FAISS provides sub-millisecond similarity search even with millions of vectors</li>
+  <li class="flex items-start gap-2"><span class="text-accent mt-1">▸</span> Chunk size matters — 500-1000 tokens with 100-token overlap works well</li>
+  <li class="flex items-start gap-2"><span class="text-accent mt-1">▸</span> Always validate retrieved context before passing to the LLM</li>
+  <li class="flex items-start gap-2"><span class="text-accent mt-1">▸</span> Use async endpoints in FastAPI for concurrent embedding operations</li>
+</ul>
+`
+      },
+      {
+        title: 'Agentic AI Workflows with n8n',
+        date: 'February 3, 2025',
+        readTime: '6 min read',
+        tags: ['AI', 'Automation'],
+        content: `
+<p class="text-fg-muted leading-relaxed mb-6">n8n has emerged as a powerful orchestration tool for building agentic AI workflows. In this article, I explore how to combine LLMs, vector search, and custom API integrations for intelligent document automation.</p>
+
+<h2 class="font-display text-xl font-bold text-fg mt-10 mb-4 flex items-center gap-2"><span class="text-accent-blue font-mono text-sm">#1</span> Why n8n for AI Workflows?</h2>
+<p class="text-fg-muted leading-relaxed mb-6">Traditional automation tools lack the flexibility to integrate AI agents dynamically. n8n's visual workflow builder combined with custom code nodes makes it ideal for building multi-step agentic systems.</p>
+
+<div class="code-block bg-[#1a1a1a] border border-border rounded-xl overflow-hidden my-6">
+  <div class="flex items-center justify-between px-4 py-2 bg-bg-deep border-b border-border">
+    <span class="text-xs font-mono text-fg-dim">n8n_workflow.json</span>
+    <button onclick="copyCode(this)" class="text-xs font-mono text-fg-dim hover:text-accent-blue transition-colors flex items-center gap-1">
+      <span class="iconify" data-icon="lucide:copy" data-width="12"></span> copy
+    </button>
+  </div>
+  <pre class="p-5 text-sm font-mono leading-relaxed overflow-x-auto">{
+  <span class="syn-string">"name"</span>: <span class="syn-string">"RAG Document Automation"</span>,
+  <span class="syn-string">"nodes"</span>: [
+    {
+      <span class="syn-string">"type"</span>: <span class="syn-string">"n8n-nodes-base.webhook"</span>,
+      <span class="syn-string">"name"</span>: <span class="syn-string">"Document Upload"</span>,
+      <span class="syn-string">"parameters"</span>: {
+        <span class="syn-string">"path"</span>: <span class="syn-string">"/upload"</span>,
+        <span class="syn-string">"method"</span>: <span class="syn-string">"POST"</span>
+      }
+    },
+    {
+      <span class="syn-string">"type"</span>: <span class="syn-string">"n8n-nodes-base.code"</span>,
+      <span class="syn-string">"name"</span>: <span class="syn-string">"Chunk & Embed"</span>,
+      <span class="syn-string">"parameters"</span>: {
+        <span class="syn-string">"functionCode"</span>: <span class="syn-string">"..."</span>
+      }
+    },
+    {
+      <span class="syn-string">"type"</span>: <span class="syn-string">"@n8n/n8n-nodes-langchain.agent"</span>,
+      <span class="syn-string">"name"</span>: <span class="syn-string">"AI Response Agent"</span>,
+      <span class="syn-string">"parameters"</span>: {
+        <span class="syn-string">"model"</span>: <span class="syn-string">"gpt-4"</span>,
+        <span class="syn-string">"temperature"</span>: <span class="syn-number">0.1</span>
+      }
+    }
+  ]
+}</pre>
+</div>
+
+<h2 class="font-display text-xl font-bold text-fg mt-10 mb-4 flex items-center gap-2"><span class="text-accent-blue font-mono text-sm">#2</span> Pattern: Document → RAG → Response</h2>
+<p class="text-fg-muted leading-relaxed mb-6">The core pattern I use across most automation projects: ingest a document, chunk and embed it, then use an agent to generate context-aware responses. The n8n workflow handles the orchestration while Python microservices handle the heavy lifting.</p>
+
+<div class="bg-bg-card border border-accent-blue/20 rounded-xl p-5 my-6">
+  <p class="text-sm font-mono text-fg-muted">
+    <span class="text-accent-blue">⚡</span> <span class="text-fg font-medium">Pro Tip:</span> Use n8n's Error Trigger node to build self-healing workflows that retry failed AI calls with exponential backoff.
+  </p>
+</div>
+
+<h2 class="font-display text-xl font-bold text-fg mt-10 mb-4 flex items-center gap-2"><span class="text-accent-blue font-mono text-sm">#3</span> Production Considerations</h2>
+<ul class="space-y-2 text-fg-muted">
+  <li class="flex items-start gap-2"><span class="text-accent-blue mt-1">▸</span> Always set temperature low (0.1-0.3) for factual document responses</li>
+  <li class="flex items-start gap-2"><span class="text-accent-blue mt-1">▸</span> Implement rate limiting on webhook endpoints</li>
+  <li class="flex items-start gap-2"><span class="text-accent-blue mt-1">▸</span> Use n8n's built-in credential management for API keys</li>
+  <li class="flex items-start gap-2"><span class="text-accent-blue mt-1">▸</span> Monitor vector DB index size and implement cleanup policies</li>
+</ul>
+`
+      },
+      {
+        title: 'Smart People Counter with YOLOv8',
+        date: 'March 12, 2025',
+        readTime: '10 min read',
+        tags: ['AI'],
+        content: `
+<p class="text-fg-muted leading-relaxed mb-6">Real-time crowd monitoring is a critical application of computer vision. This article details my approach to building a smart people counter using YOLOv8 and IoU-based tracking.</p>
+
+<h2 class="font-display text-xl font-bold text-fg mt-10 mb-4 flex items-center gap-2"><span class="text-accent font-mono text-sm">#1</span> Detection Pipeline</h2>
+
+<div class="code-block bg-[#1a1a1a] border border-border rounded-xl overflow-hidden my-6">
+  <div class="flex items-center justify-between px-4 py-2 bg-bg-deep border-b border-border">
+    <span class="text-xs font-mono text-fg-dim">people_counter.py</span>
+    <button onclick="copyCode(this)" class="text-xs font-mono text-fg-dim hover:text-accent transition-colors flex items-center gap-1">
+      <span class="iconify" data-icon="lucide:copy" data-width="12"></span> copy
+    </button>
+  </div>
+  <pre class="p-5 text-sm font-mono leading-relaxed overflow-x-auto"><span class="syn-keyword">from</span> ultralytics <span class="syn-keyword">import</span> YOLO
+<span class="syn-keyword">from</span> collections <span class="syn-keyword">import</span> defaultdict
+<span class="syn-keyword">import</span> cv2
+
+<span class="syn-class">class</span> <span class="syn-class">PeopleCounter</span>:
+    <span class="syn-keyword">def</span> <span class="syn-function">__init__</span>(<span class="syn-param">self</span>, model_path=<span class="syn-string">"yolov8n.pt"</span>):
+        <span class="syn-param">self</span>.model = YOLO(model_path)
+        <span class="syn-param">self</span>.tracker = defaultdict(<span class="syn-builtin">dict</span>)
+        <span class="syn-param">self</span>.next_id = <span class="syn-number">0</span>
+
+    <span class="syn-keyword">def</span> <span class="syn-function">process_frame</span>(<span class="syn-param">self</span>, frame):
+        results = <span class="syn-param">self</span>.model(
+            frame, classes=[<span class="syn-number">0</span>]  <span class="syn-comment"># person only</span>
+        )
+        detections = results[<span class="syn-number">0</span>].boxes
+        tracked = <span class="syn-param">self</span>._update_tracks(detections)
+        <span class="syn-keyword">return</span> <span class="syn-builtin">len</span>(<span class="syn-param">self</span>.tracker), tracked
+
+    <span class="syn-keyword">def</span> <span class="syn-function">_update_tracks</span>(<span class="syn-param">self</span>, detections):
+        <span class="syn-comment"># IoU-based matching logic</span>
+        <span class="syn-keyword">for</span> box <span class="syn-keyword">in</span> detections:
+            best_iou, best_id = <span class="syn-number">0</span>, <span class="syn-keyword">None</span>
+            <span class="syn-keyword">for</span> tid, tdata <span class="syn-keyword">in</span> <span class="syn-param">self</span>.tracker.items():
+                iou = <span class="syn-param">self</span>._calc_iou(
+                    box.xyxy, tdata[<span class="syn-string">"bbox"</span>]
+                )
+                <span class="syn-keyword">if</span> iou > best_iou:
+                    best_iou, best_id = iou, tid
+            <span class="syn-keyword">if</span> best_iou > <span class="syn-number">0.3</span>:
+                <span class="syn-param">self</span>.tracker[best_id][<span class="syn-string">"bbox"</span>] = box.xyxy
+            <span class="syn-keyword">else</span>:
+                <span class="syn-param">self</span>.tracker[<span class="syn-param">self</span>.next_id] = {
+                    <span class="syn-string">"bbox"</span>: box.xyxy
+                }
+                <span class="syn-param">self</span>.next_id += <span class="syn-number">1</span></pre>
+</div>
+
+<h2 class="font-display text-xl font-bold text-fg mt-10 mb-4 flex items-center gap-2"><span class="text-accent font-mono text-sm">#2</span> Performance Optimizations</h2>
+<ul class="space-y-2 text-fg-muted">
+  <li class="flex items-start gap-2"><span class="text-accent mt-1">▸</span> Use YOLOv8n (nano) for real-time inference at 30+ FPS</li>
+  <li class="flex items-start gap-2"><span class="text-accent mt-1">▸</span> Implement frame skipping for high-traffic scenes</li>
+  <li class="flex items-start gap-2"><span class="text-accent mt-1">▸</span> Use RTSP stream reconnection with exponential backoff</li>
+  <li class="flex items-start gap-2"><span class="text-accent mt-1">▸</span> Add a cooldown timer to prevent double-counting at zone boundaries</li>
+</ul>
+`
+      },
+      {
+        title: 'FastAPI Microservices Architecture',
+        date: 'April 7, 2025',
+        readTime: '12 min read',
+        tags: ['Backend'],
+        content: `
+<p class="text-fg-muted leading-relaxed mb-6">Designing scalable Python microservices requires careful attention to service boundaries, inter-service communication, and deployment orchestration. Here's my production-tested approach.</p>
+
+<h2 class="font-display text-xl font-bold text-fg mt-10 mb-4 flex items-center gap-2"><span class="text-accent-blue font-mono text-sm">#1</span> Service Architecture</h2>
+
+<div class="code-block bg-[#1a1a1a] border border-border rounded-xl overflow-hidden my-6">
+  <div class="flex items-center justify-between px-4 py-2 bg-bg-deep border-b border-border">
+    <span class="text-xs font-mono text-fg-dim">docker-compose.yml</span>
+    <button onclick="copyCode(this)" class="text-xs font-mono text-fg-dim hover:text-accent-blue transition-colors flex items-center gap-1">
+      <span class="iconify" data-icon="lucide:copy" data-width="12"></span> copy
+    </button>
+  </div>
+  <pre class="p-5 text-sm font-mono leading-relaxed overflow-x-auto"><span class="syn-keyword">version</span>: <span class="syn-string">"3.9"</span>
+<span class="syn-keyword">services</span>:
+  <span class="syn-function">api-gateway</span>:
+    <span class="syn-keyword">build</span>: ./gateway
+    <span class="syn-keyword">ports</span>:
+      - <span class="syn-string">"8000:8000"</span>
+    <span class="syn-keyword">depends_on</span>:
+      - auth-service
+      - rag-service
+    <span class="syn-keyword">environment</span>:
+      - REDIS_URL=redis://redis:6379
+
+  <span class="syn-function">auth-service</span>:
+    <span class="syn-keyword">build</span>: ./auth
+    <span class="syn-keyword">environment</span>:
+      - MONGO_URI=mongodb://mongo:27017/auth
+      - JWT_SECRET=<span class="syn-string">${JWT_SECRET}</span>
+
+  <span class="syn-function">rag-service</span>:
+    <span class="syn-keyword">build</span>: ./rag
+    <span class="syn-keyword">deploy</span>:
+      <span class="syn-keyword">replicas</span>: <span class="syn-number">2</span>
+      <span class="syn-keyword">resources</span>:
+        <span class="syn-keyword">limits</span>:
+          <span class="syn-keyword">memory</span>: <span class="syn-number">2G</span>
+
+  <span class="syn-function">redis</span>:
+    <span class="syn-keyword">image</span>: redis:7-alpine
+  <span class="syn-function">mongo</span>:
+    <span class="syn-keyword">image</span>: mongo:7</pre>
+</div>
+
+<h2 class="font-display text-xl font-bold text-fg mt-10 mb-4 flex items-center gap-2"><span class="text-accent-blue font-mono text-sm">#2</span> Key Design Decisions</h2>
+<ul class="space-y-2 text-fg-muted">
+  <li class="flex items-start gap-2"><span class="text-accent-blue mt-1">▸</span> API Gateway pattern for unified entry point and rate limiting</li>
+  <li class="flex items-start gap-2"><span class="text-accent-blue mt-1">▸</span> MongoDB for flexible document-based data storage</li>
+  <li class="flex items-start gap-2"><span class="text-accent-blue mt-1">▸</span> Redis for shared caching and session management</li>
+  <li class="flex items-start gap-2"><span class="text-accent-blue mt-1">▸</span> Horizontal scaling of RAG service for concurrent embedding operations</li>
+  <li class="flex items-start gap-2"><span class="text-accent-blue mt-1">▸</span> Health check endpoints on all services for Docker orchestration</li>
+</ul>
+`
+      },
+      {
+        title: 'Shopify AI Customer Support Chatbot',
+        date: 'May 20, 2025',
+        readTime: '7 min read',
+        tags: ['Tools', 'Automation'],
+        content: `
+<p class="text-fg-muted leading-relaxed mb-6">Building a multimodal AI chatbot for e-commerce requires handling diverse input types and maintaining context across conversations. This project combines FastAPI, FAISS, and multiple AI models into a unified support system.</p>
+
+<h2 class="font-display text-xl font-bold text-fg mt-10 mb-4 flex items-center gap-2"><span class="text-accent font-mono text-sm">#1</span> Multimodal Input Processing</h2>
+
+<div class="code-block bg-[#1a1a1a] border border-border rounded-xl overflow-hidden my-6">
+  <div class="flex items-center justify-between px-4 py-2 bg-bg-deep border-b border-border">
+    <span class="text-xs font-mono text-fg-dim">chatbot.py</span>
+    <button onclick="copyCode(this)" class="text-xs font-mono text-fg-dim hover:text-accent transition-colors flex items-center gap-1">
+      <span class="iconify" data-icon="lucide:copy" data-width="12"></span> copy
+    </button>
+  </div>
+  <pre class="p-5 text-sm font-mono leading-relaxed overflow-x-auto"><span class="syn-keyword">class</span> <span class="syn-class">ShopifyChatbot</span>:
+    <span class="syn-keyword">def</span> <span class="syn-function">__init__</span>(<span class="syn-param">self</span>):
+        <span class="syn-param">self</span>.vector_store = FAISSStore()
+        <span class="syn-param">self</span>.whisper = WhisperModel(<span class="syn-string">"base"</span>)
+        <span class="syn-param">self</span>.vision = CLIPModel()
+
+    <span class="syn-keyword">async def</span> <span class="syn-function">handle_input</span>(<span class="syn-param">self</span>, input_data):
+        <span class="syn-keyword">if</span> input_data.type == <span class="syn-string">"text"</span>:
+            query = input_data.content
+        <span class="syn-keyword">elif</span> input_data.type == <span class="syn-string">"voice"</span>:
+            query = <span class="syn-param">self</span>.whisper.transcribe(
+                input_data.audio
+            )
+        <span class="syn-keyword">elif</span> input_data.type == <span class="syn-string">"image"</span>:
+            query = <span class="syn-param">self</span>.vision.describe(
+                input_data.image
+            )
+
+        context = <span class="syn-param">self</span>.vector_store.search(query)
+        <span class="syn-keyword">return await</span> <span class="syn-param">self</span>.generate_response(
+            query, context
+        )</pre>
+</div>
+
+<h2 class="font-display text-xl font-bold text-fg mt-10 mb-4 flex items-center gap-2"><span class="text-accent font-mono text-sm">#2</span> Results</h2>
+<div class="grid grid-cols-3 gap-4 my-6">
+  <div class="bg-bg-card border border-border rounded-lg p-4 text-center">
+    <p class="text-2xl font-display font-bold text-accent">92%</p>
+    <p class="text-xs text-fg-dim font-mono mt-1">Resolution Rate</p>
+  </div>
+  <div class="bg-bg-card border border-border rounded-lg p-4 text-center">
+    <p class="text-2xl font-display font-bold text-accent-blue">1.2s</p>
+    <p class="text-xs text-fg-dim font-mono mt-1">Avg Response</p>
+  </div>
+  <div class="bg-bg-card border border-border rounded-lg p-4 text-center">
+    <p class="text-2xl font-display font-bold text-accent">3x</p>
+    <p class="text-xs text-fg-dim font-mono mt-1">Input Modes</p>
+  </div>
+</div>
+`
+      },
+      {
+        title: 'Dockerized Python Dev Environment',
+        date: 'June 1, 2025',
+        readTime: '5 min read',
+        tags: ['Tools'],
+        content: `
+<p class="text-fg-muted leading-relaxed mb-6">A reproducible development environment eliminates "works on my machine" issues. Here's my battle-tested Docker setup for Python development.</p>
+
+<div class="code-block bg-[#1a1a1a] border border-border rounded-xl overflow-hidden my-6">
+  <div class="flex items-center justify-between px-4 py-2 bg-bg-deep border-b border-border">
+    <span class="text-xs font-mono text-fg-dim">Dockerfile</span>
+    <button onclick="copyCode(this)" class="text-xs font-mono text-fg-dim hover:text-accent transition-colors flex items-center gap-1">
+      <span class="iconify" data-icon="lucide:copy" data-width="12"></span> copy
+    </button>
+  </div>
+  <pre class="p-5 text-sm font-mono leading-relaxed overflow-x-auto"><span class="syn-keyword">FROM</span> python:<span class="syn-number">3.12</span>-slim
+
+<span class="syn-comment"># Install system deps</span>
+<span class="syn-keyword">RUN</span> apt-get update && apt-get install -y \\
+    gcc libpq-dev curl \\
+    && rm -rf /var/lib/apt/lists/*
+
+<span class="syn-comment"># Install Poetry</span>
+<span class="syn-keyword">RUN</span> curl -sSL https://install.python-poetry.org | python3 -
+
+<span class="syn-comment"># Workspace setup</span>
+<span class="syn-keyword">WORKDIR</span> /app
+<span class="syn-keyword">COPY</span> pyproject.toml poetry.lock ./
+<span class="syn-keyword">RUN</span> poetry install --no-root
+
+<span class="syn-comment"># Hot-reload development</span>
+<span class="syn-keyword">CMD</span> [<span class="syn-string">"poetry"</span>, <span class="syn-string">"run"</span>, <span class="syn-string">"uvicorn"</span>, \\
+     <span class="syn-string">"app.main:app"</span>, <span class="syn-string">"--reload"</span>, \\
+     <span class="syn-string">"--host"</span>, <span class="syn-string">"0.0.0.0"</span>]</pre>
+</div>
+
+<h2 class="font-display text-xl font-bold text-fg mt-10 mb-4 flex items-center gap-2"><span class="text-accent font-mono text-sm">#1</span> Quick Start</h2>
+<div class="bg-bg-card border border-accent/20 rounded-xl p-5 my-6 font-mono text-sm">
+  <p class="text-fg-dim"># Clone and spin up</p>
+  <p class="text-fg mt-1">$ git clone https://github.com/abdullahjahangir123/dev-setup</p>
+  <p class="text-fg">$ docker compose up -d</p>
+  <p class="text-accent mt-2">✓ Environment ready at http://localhost:8000</p>
+</div>
+`
+      }
+    ];
+
+    // Filter articles by tag
+    function filterArticles(tag) {
+      const cards = document.querySelectorAll('.article-card');
+      const btns = document.querySelectorAll('.tag-btn');
+
+      btns.forEach(b => b.classList.remove('tag-active'));
+      document.querySelector(`.tag-btn[data-tag="${tag}"]`).classList.add('tag-active');
+
+      cards.forEach(card => {
+        const cardTags = card.getAttribute('data-tags');
+        if (tag === 'all' || cardTags.includes(tag)) {
+          card.style.display = '';
+          card.style.animation = 'fadeInUp 0.4s ease-out forwards';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // Open article detail
+    function openArticle(index) {
+      const article = articles[index];
+      const contentDiv = document.getElementById('article-content');
+
+      const tagsHtml = article.tags.map(t => {
+        const isBlue = t === 'AI' || t === 'Automation';
+        return `<span class="px-2 py-1 ${isBlue ? 'bg-accent-blue/15 text-accent-blue border-accent-blue/30' : 'bg-accent/15 text-accent border-accent/30'} text-[10px] font-mono rounded border">${t}</span>`;
+      }).join('');
+
+      contentDiv.innerHTML = `
+        <div class="animate-fadeInUp">
+          <div class="flex flex-wrap gap-2 mb-4">${tagsHtml}</div>
+          <h1 class="font-display text-3xl md:text-4xl font-bold text-fg leading-tight">${article.title}</h1>
+          <div class="mt-4 flex items-center gap-4 text-sm text-fg-dim font-mono">
+            <span class="flex items-center gap-1"><span class="iconify" data-icon="lucide:calendar" data-width="14"></span> ${article.date}</span>
+            <span class="flex items-center gap-1"><span class="iconify" data-icon="lucide:clock" data-width="14"></span> ${article.readTime}</span>
+            <span class="flex items-center gap-1"><span class="iconify" data-icon="lucide:user" data-width="14"></span> Abdullah Jahangir</span>
+          </div>
+          <div class="mt-8 h-px bg-gradient-to-r from-accent/30 via-accent-blue/30 to-transparent"></div>
+          <div class="mt-8 article-body">${article.content}</div>
+        </div>
+      `;
+
+      document.getElementById('main-content').classList.add('hidden-content');
+      document.getElementById('article-detail').classList.add('visible');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Show main content
+    function showMain() {
+      document.getElementById('main-content').classList.remove('hidden-content');
+      document.getElementById('article-detail').classList.remove('visible');
+    }
+
+    // Copy code
+    function copyCode(btn) {
+      const pre = btn.closest('.code-block').querySelector('pre');
+      const text = pre.innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const original = btn.innerHTML;
+        btn.innerHTML = '<span class="iconify" data-icon="lucide:check" data-width="12"></span> copied!';
+        btn.classList.add('text-accent');
+        showToast('Code copied to clipboard!');
+        setTimeout(() => {
+          btn.innerHTML = original;
+          btn.classList.remove('text-accent');
+        }, 2000);
+      });
+    }
+
+    // Toast notification
+    function showToast(message) {
+      const existing = document.querySelector('.toast');
+      if (existing) existing.remove();
+
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = message;
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+        toast.classList.add('hiding');
+        setTimeout(() => toast.remove(), 300);
+      }, 2500);
+    }
+
+    // Send message form
+    function sendMessage(e) {
+      e.preventDefault();
+      const name = document.getElementById('msg-name').value.trim();
+      const body = document.getElementById('msg-body').value.trim();
+
+      if (!name || !body) {
+        showToast('⚠ Please fill in all fields');
+        return;
+      }
+
+      showToast(`✓ Message sent! Thanks, ${name}.`);
+      document.getElementById('msg-name').value = '';
+      document.getElementById('msg-body').value = '';
+    }
+
+    // Active nav link on scroll
+    const sections = ['articles', 'projects', 'about', 'contact'];
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY + 100;
+      sections.forEach(id => {
+        const section = document.getElementById(id);
+        if (section) {
+          const top = section.offsetTop;
+          const height = section.offsetHeight;
+          const link = document.querySelector(`a[href="#${id}"]`);
+          if (link) {
+            if (scrollY >= top && scrollY < top + height) {
+              link.classList.add('active');
+            } else {
+              link.classList.remove('active');
+            }
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
